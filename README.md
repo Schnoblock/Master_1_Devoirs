@@ -7,12 +7,12 @@ Apprentissage Statistique :
 
 Processus de Poisson :
 - Sujet Partiel 2020
-- DM Partiel 2020
+- DM Partiel 2020 (pdf, LateX)
 
 Mouvement Brownien et évalutation d'actifs :
 - Sujet DM
-- Devoir Maison Rendu
+- Devoir Maison Rendu (pdf LateX)
 
 Introduction à la statistique non paramétrique :
 - Sujet DM
-- Devoir Maison Rendu 
+- Devoir Maison Rendu (pdf LateX)
