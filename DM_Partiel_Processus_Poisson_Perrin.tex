@@ -1,0 +1,366 @@
+\documentclass[a4paper,10pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{dsfont}		%mathds{1} pour faire l'indicatrice
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Définition}
+\newtheorem{thm}{Théorème}
+\newtheorem{rmq}{Remarque}
+\newtheorem{exem}{Exemple}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lem}{Lemme}
+\frenchbsetup{StandardLists=true} 
+\usepackage[all]{xy}
+\usepackage{fullpage}
+
+\newcommand{\definition}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{defi} #1 \end{defi}\end{minipage}}}	%Définition
+\newcommand{\theoreme}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{thm} #1 \end{thm}\end{minipage}}} %Théorème
+\newcommand{\coro}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{corollaire} #1 \end{corollaire}\end{minipage}}} %Corollaire
+\newcommand{\proposition}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{prop} #1 \end{prop}\end{minipage}}} %Proposition
+\newcommand{\lemme}[1]{\noindent \begin{tabular}{|c}	%Lemme
+\begin{minipage}{\textwidth}
+    \raggedright{\begin{lem} #1\end{lem}}
+\end{minipage}
+\end{tabular}}
+\newcommand{\ccl}[1]{\begin{center} \fbox{#1} \end{center}}  %Conclusion encadrée centrée
+\newcommand{\esp}[1]{\mathbb{E}\left[#1\right]} %Espérance
+\newcommand{\Var}[1]{\mathbb{V} \left[#1\right]} %Variance
+\newcommand{\proba}[1]{\mathbb{P} \left(#1\right)} %Proba
+
+\DeclareMathOperator{\ind}{\perp \!\!\! \perp} %Symbole indépendant pour variable aléatoires
+
+\DeclareMathOperator{\epi}{\epsilon_{t_{i + 1}}}
+
+% --------------------------------------------------------------------
+% Definitions (do not change this)
+% --------------------------------------------------------------------
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}   % Horizontal rule
+
+\makeatletter                           % Title
+\def\printtitle{%                       
+    {\centering \@title\par}}
+\makeatother                                    
+
+\makeatletter                           % Author
+\def\printauthor{%                  
+    {\centering \large \@author}}               
+\makeatother   
+
+% --------------------------------------------------------------------
+% Metadata (Change this)
+% --------------------------------------------------------------------
+\title{ \normalsize \textsc{}    % Subtitle
+            \\[2.0cm]                               % 2cm spacing
+            \HRule{0.5pt} \\                        % Upper rule
+            \LARGE \textbf{\uppercase{Examen Partiel - Devoir Maison)}}    % Title
+            \HRule{2pt} \\ [0.5cm]      % Lower rule + 0.5cm spacing
+            \normalsize \today        % Todays date
+            \\
+        }
+
+\author{
+       Lucas Perrin\\
+}
+
+\begin{document}
+\setcounter{page}{1}
+\noindent
+Processus de Poisson\\
+Lucas Perrin\\
+14 avril 2020
+
+\begin{center}
+\huge{ Examen Partiel - Devoir Maison }
+\end{center}
+
+%%%
+%%%   EXERCICE 1
+%%%
+
+\subsection*{Exercice I}
+
+%%%%  Q1
+
+\textbf{1.} La loi de $N_t$ pour $t>0$ est $\mathcal{P}(\lambda t)$, $\mathcal{P}$ étant une distribution de Poisson. On a donc :
+
+$$
+\mathbb{P}(N_t = n)=\frac{(\lambda t)^{n}}{n !} e^{-\lambda t}
+$$
+\newline
+
+%%%%  Q2
+
+\textbf{2.} $T_n$ est la somme de $n$ variables aléatoires de loi $\epsilon(\lambda)$ (de moyenne $\frac{1}{\lambda}$ et de variance $\frac{1}{\lambda^2}$) indépendantes donc d'après le théorème central limite on a :
+
+$$
+\frac{T_{n}-n \frac{1}{\lambda}}{\frac{1}{\lambda} \sqrt{n}} \stackrel{\text { (loi) }}{\rightarrow} \mathcal{N}(0,1)
+$$
+donc : 
+$$
+\frac{T_{n}- \frac{n}{\lambda}}{\sqrt{n}} \stackrel{\text { (loi) }}{\rightarrow} \mathcal{N} \left( 0,\frac{1}{\lambda^2} \right)
+$$
+quand $n$ tend vers $+ \infty$.
+\newline
+
+%%%%  Q3
+
+\textbf{3.} On sait que, si $0 < s < t$, $N_t - N_s$ est indépendant de $\mathcal{F}_s$ (donc de $N_s$).
+On cherche donc ici à calculer $\mathbb{E}\left[\exp \left(q\left(N_{t}+N_{s}\right)\right)\right]$, $q \in \mathbb{R}$ :
+
+$$
+\begin{aligned}
+\mathbb{E}\left[\exp \left(q\left(N_{t}+N_{s}\right)\right)\right] & = \mathbb{E}\left[\exp \left(q\left(N_{t} - N_s + 2N_{s}\right)\right)\right] \\
+& = \mathbb{E}\left[\exp \left(q\left(N_{t} - N_s\right)  + 2qN_{s}\right)\right] \\
+& = \mathbb{E}\left[\exp \left(q\left(N_{t} - N_s\right) \right) \exp \left(2qN_{s}\right)\right] \\
+& = \mathbb{E}\left[\exp \left(q\left(N_{t} - N_s\right) \right)\right] \mathbb{E}\left[\exp \left(2qN_{s}\right)\right] \\
+& = \sum_i e^{qi} e^{-\lambda (t -s)} \frac{(\lambda(t-s))^i}{i !} \sum_j e^{2qj} e^{-\lambda s} \frac{(\lambda s)^j}{j !} \\
+& = e^{-\lambda (t -s) -\lambda s} \sum_i \frac{(e^q \lambda(t-s))^i}{i !} \sum_j \frac{(e^{2q} \lambda s)^j}{j !} \\
+& = e^{-\lambda t} \exp{e^{q} \lambda (t-s)} \exp{e^{2q} \lambda s} \\
+& = e^{-\lambda t} \exp{e^{q} \lambda (t-s) + e^{2q} \lambda s}
+\end{aligned}
+$$
+\newline
+
+%%%%  Q4
+
+\textbf{4.} On cherche à calculer $\esp{N_{\Theta t}}$ et $\Var{N_{\Theta t}}$ avec $\Theta$ une variable aléatoire indépendante de $N$.
+On a, pour un processus de Poisson $N_1$ d'intensité $1$ les calculs suivants :  
+
+$$
+\begin{aligned}
+\esp{(N_1)_{\Theta t}} & = \esp{\esp{\tilde{{(N_1)}_t} | \Theta}} \\
+& = \esp{\Theta t}
+\end{aligned}
+$$
+
+ainsi que : 
+
+$$
+\begin{aligned}
+\Var{(N_1)_{\Theta t}} & = \esp{\tilde{(N_1)}_{t}^{2}}-\esp{\tilde{(N_1)}_{t}}^2 & \text{où : } \esp{\tilde{(N_1)}_{t}^{2}} = \esp{\esp{\tilde{(N_1)}_{t}^{2} | \Theta}} = \esp{(\Theta t)^{2}+\Theta t}\\
+& = \esp{(\Theta t)^2+\Theta t} - \esp{\Theta t}^2 \\
+& = \Var{\Theta}t^2 + \esp{\Theta t}
+\end{aligned}
+$$
+
+Ici notre processus de Poisson est d'intensité $\lambda$, cependant on retrouve : $N_{\Theta t} = N_{\Theta \lambda \frac{t}{\lambda}}$ donnant $N_{\frac{t}{\lambda}}$ un processus de Poisson d'intensité $1$ et $\Theta\lambda$ une variable aléatoire indépendante de $N_{\frac{t}{\lambda}}$. On trouve alors :
+$$
+\begin{aligned}
+& \esp{N_{\Theta t}} = \esp{(\Theta \lambda) \frac{t}{\lambda}} = \esp{\Theta t}\\
+& \Var{N_{\Theta t}} = \Var{\Theta \lambda}\left(\frac{t}{\lambda}\right)^2 + \esp{(\Theta \lambda) \frac{t}{\lambda}} = \Var{\Theta}t^2 + \esp{\Theta t}
+\end{aligned}
+$$
+
+
+%%%
+%%%   EXERCICE 2
+%%%
+
+\subsection*{Exercice II}
+
+%%%%  Q1
+
+\textbf{1.} Le processus de comptage $N$ possède des sauts de taille 2.\\
+En effet, on cherche ici à calculer $N_t - N_{t-}$, la taille d'un saut. On peut procéder par disjonction de cas, en considérant soit le cas pair, soit comme le cas impair mais on sait dans tous les cas que les valeurs paires de $\var_n$ sont nulles, et que par conséquent $T_{2n} = T_{2n-1}$. Il en résulte que $N_{T_{2n}} = N_{T_{2n-1}}$. Pour $t = 2n$ on a alors $N_t - N_{t-} = 2$. Pour $t = 2n + 1$ on a $N_t - N_{t-} = 0$, ce n'est donc pas un saut.
+\newline
+
+%%%%  Q2
+
+\textbf{2.} On cherche la loi suivi par $S_n := T_{2n}$. On a :
+$$
+S_n = \sum_{k = 1}^{2n} \var_{k}
+$$
+or les indices pairs sont nuls, on ne somme réellement donc que sur les impairs :
+$$
+S_n = \sum_{k = 1}^{n} \var_{2k-1}.
+$$
+C'est donc la somme de $n$ variables i.i.d. de loi exponentielles de paramètre $\lambda$ car pour tout $k \geq 1$, $\var_{2k-1} \sim \epsilon(\lambda)$. On sait alors que cette somme suit une loi gamma : $\Gamma(n,\lambda)$.
+\newline
+
+%%%%  Q3
+
+\textbf{3.} On cherche à monter que $M_t := \frac{1}{2}N_t$ est un processus de Poisson. Tout d'abord, $N_t$ est bien un processus de comptage comme défini dans l'énoncé. donc $M$ défini comme juste avant est aussi un processus de comptage. Il est croissant et continu à droite comme $N$ et vérifie $M_0 = \frac{1}{2} N_0 = 0$. De plus, $N$ effectuant des sauts de 2, il ne peut prendre que des valeur paires ($2,4,6, ...$), donc $\frac{1}{2} N_t$ est bien dans $\mathbb{N}$. \\
+On va alors calculer la loi de la suite des inter-arrivées. Pour $n \geq 2$ dans $\mathbb{N}$ on a : $S_n = T_{2n}$ et $S_{n-1} = T_{2n-2}$ donc $S_n - S_{n-1} = \var_{2n-1} + \var{2n-2} = \var{2n -1} \sim \epsilon(\lambda)$. La suite des inter-arrivées suit donc de manière i.i.d. (car $\var_{2n+1}$ distribué i.i.d. pour tout $n$) une exponentielle de paramètre $\lambda$. Et c'est un processus de comptage. C'est donc un processus de Poisson d'intensité $\lambda$.
+
+
+%%%
+%%%   EXERCICE 3
+%%%
+
+\subsection*{Exercice III}
+
+%%%%  Q1
+
+\textbf{1.} On a $X_t = M_t - N_t$, avec $M_t$ et $N_t$ des processus de Poisson d'intensités respectives $\mu$ et $ \lambda$. On a donc bien :
+\begin{itemize}
+	\item $M_0 = N_0 = 0$, impliquant $X_0 = M_0 - N_0 = 0$
+	\item $\forall t, M_t, N_t \in \mathbb{N}$, impliquant $ \forall t, X_t \in \mathbb{N}$
+\end{itemize}
+Cependant, la condition de non décroissance n'est elle pas vérifiée. En effet :
+$$
+X_t - X_s = M_t - M_s - (N_t - N_s) = \mathcal{P}(\mu(t-s)) - \mathcal{P}(\lambda(t-s))
+$$
+ce dernier terme n'est pas forcément positif, il dépend du choix de $\mu$ et de $\lambda$.
+Donc $X$ n'est pas processus de comptage.
+\newline
+
+%%%%  Q2
+
+\textbf{2.} On cherche $\proba{X_t = k}$, avec $k$ dans $\mathbb{Z}$ :
+$$
+\begin{aligned}
+\proba{X_t = k} & = \proba{M_t - N_t = k} \\
+& = \sum_{i \geq 1} \proba{M_t = k +i, N_t = i}\\
+& = \sum_{i \geq 1} \proba{M_t = k +i} \proba{N_t = i} & \text{car indépendants}\\
+& = \sum_{i \geq 1} \frac{(\mu t)^{k + i}}{(k +i) !} e^{-\mu t} \frac{(\lambda t)^{i}}{i !} e^{-\lambda t} \\
+& = \sum_{i \geq 1} \frac{(\mu t)^{k + i} (\lambda t)^{i}}{(k+i) ! i !}  e^{-t(\mu + \lambda)}
+\end{aligned}
+$$
+\newline
+
+%%%%  Q3
+
+\textbf{3.} On cherche à montrer que $X$ est à accroissements indépendants et stationnaires.\\
+Tout d'abord, pour tout $n \geq 1$, et tout $0 = t_0 < t_1 < ... < t_n$ on a :
+$$
+(X_{t_i} - X_{t_{i-1}} , i = 1,...,n) = \left( (M_{t_i} - M_{t_{i-1}}) - ( N_{t_i} -N_{t_{i-1}}), i = 1,...,n \right)
+$$ 
+qui est bien un vecteur de variables aléatoires indépendantes car, $M$ et $N$ sont des processus de Poisson indépendants. $X$ est donc bien à accroissements indépendants. \\
+De plus, pour tout $0 \leq S < t$, on a :
+$$
+X_t - X_s = M_t - M_s - (N_t - N_s)
+$$
+$M$ et $N$ sont des processus de Poisson, donc à accroissements stationnaires, donc $X_t - X_s$ à même loi que $M_{t-s} - N_{t-s}$ et donc que $X_{t-s}$. $X$ est donc bien à accroissements croissants.
+\newline
+
+%%%%  Q4
+
+\textbf{4.} On cherche la limite de $\frac{X_t}{t} = \frac{M_t - N_t}{t}$ à l'infini.
+On sait que $M$ et $N$ sont des processus de Poisson, par conséquent $\frac{M_t}{t} \rightarrow \esp{M_1} = \mu$ et $\frac{N_t}{t} \rightarrow \esp{N_1} = \lambda$. Donc $\frac{X_t}{t} = \frac{M_t}{t} - \frac{N_t}{t} \rightarrow \esp{M_1 - M_0 - (N_1 - N_0)} = \esp{M_1} - \esp{N_1} = \mu - \lambda$, car $M$ et $N$ sont indépendants.
+\newline
+
+%%%%  Q5
+
+\textbf{5.} On cherche la loi de $R_1 := \inf\{t \geq 0 : X_t \neq 0 \}$. En d'autres termes, on cherche la loi de $\min\{S_1, T_1\}$ : 
+$$
+\begin{aligned}
+\proba{\min\{S_1, T_1\} \leq x} & = 1 - \proba{\min\{S_1, T_1\} \geq x} \\
+& = 1 - \proba{S_1 > x}\proba{T_1 > x} \\
+& = 1 - e^{-\mu x}e^{-\lambda x} \\
+& = 1 - e^{-x(\mu + \lambda)}
+\end{aligned}
+$$
+$R_1$ suit donc une loi exponentielle de paramètre $\mu + \lambda$.
+\newline
+
+%%%
+%%%   EXERCICE 4
+%%%
+
+\subsection*{Exercice IV}
+
+%%%%  Q1
+
+\textbf{1.} On cherche la loi de $T_n$. Cela correspond aux temps de saut d'un processus de Poisson d'intensité $\lambda$, soit donc une somme de $n$ variables loi exponentielles indépendantes de paramètre $\lambda$. C'est donc une loi gamma de paramètres $(n,\lambda)$ : 
+$$
+T_n \sim \Gamma(n, \lambda)
+$$
+\newline
+
+%%%%  Q2
+
+\textbf{2.} On cherche à montrer l'indépendance de $T_n - T_1$ avec $T_1$ ainsi que la loi du couple $(T_n - T_1, T_1)$. On a tout d'abord :
+$$
+T_n - T_1 = T_n - \var_1 = \sum_{k = 2}^n \var_k
+$$
+et donc :
+$$
+\left( \sum_{k = 2}^n \var_k \right) \ind \var_1
+$$
+On a donc bien indépendance entre $T_n - T_1$ et $T_1$.\\
+
+Comme vu à la question précédente, $T_n - T_1 = \sum_{k = 2}^n \var_k$ est une somme de $n-1$ variables de loi exponentielles de paramètre $\lambda$, donc $(T_n - T_1) \sim \Gamma(n-1, \lambda)$. On sait aussi que $T_1 = \var_1$ suit une loi exponentielle de paramètre $\lambda$ et est indépendante de $T_n - T_1$. On a donc :
+
+$$
+(T_n - T_1, T_1) \sim \Gamma(n-1,\lambda) \otimes \epsilon(\lambda) \equiv \Gamma(n-1,\lambda) \otimes \Gamma(1,\lambda)
+$$
+\newline
+
+%%%%  Q3
+
+\textbf{3.} On cherche la loi de $\frac{T_1}{T_n}$ pour $ n \geq 2$. On remarque tout d'abord que l'on peut écrire : $\frac{T_1}{T_n} = \frac{T_1}{(T_n - T_1) + T_1}$. Cela revient donc à chercher la loi de $\frac{X}{X + Y}$ où $X \sim \Gamma(1,\lambda)$ et $Y \sim \Gamma(n-1,\lambda)$, et, comme vu précédemment, $ X \ind Y$. L'énoncé nous donne donc :
+$$
+\frac{T_1}{T_n} = \frac{T_1}{(T_n - T_1) + T_1} \sim \beta(1,n-1)
+$$
+\newline
+
+%%%%  Q4
+
+\textbf{4.} On cherche la densité de la variable aléatoire $(T_1,T_n)$ sachant $N_t = n$, avec $t \geq 0$ fixé, et $ n \geq 2$. On va alors poser le calcul avec trois variables indépendantes : $X = T_1 = \var_1$, $Y = T_n - T_1$ et $Z = \var_{n+1}$, et on a donc :
+
+
+$$
+\begin{aligned}
+\esp{f(T_1,T_n)\mathds{1}_{N_t = n}} & = \esp{f(X, X + Y)\mathds{1}_{X + Y \leq t < X + Y + Z}} \\
+& = \int_{\mathbb{R}^3} f(x,x+y) (\mathds{1}_{x + y \leq t < x + y + z}) \lambda e^{- x\lambda} \frac{\lambda^{n-1}}{\Gamma(n-1)} e^{- y \lambda} y^{n-2} \lambda e^{-z \lambda} \mathds{1}_{x \geq 0} \mathds{1}_{y \geq 0} \mathds{1}_{z \geq 0} dx dy dz \\
+& = \int_{\mathbb{R}^2} f(x,x+y) (\mathds{1}_{x + y \leq t}) \lambda e^{- x\lambda} \frac{\lambda^{n-1}}{\Gamma(n-1)} e^{- y \lambda} y^{n-2} \mathds{1}_{x \geq 0} \mathds{1}_{y \geq 0} \left[ \int_{\mathbb{R}} \lambda e^{-z \lambda} (\mathds{1}_{ t < x + y + z}) \mathds{1}_{z \geq 0} dz \right] dx dy \\
+& = \int_{\mathbb{R}^2} f(x,x+y) (\mathds{1}_{x + y \leq t}) \lambda e^{- x\lambda} \frac{\lambda^{n-1}}{\Gamma(n-1)} e^{- y \lambda} y^{n-2} \mathds{1}_{x \geq 0} \mathds{1}_{y \geq 0} \left[ - e^{z \lambda} \right]_{t - (x + y)}^{\infty} dx dy \\
+& = \int_{\mathbb{R}^2} f(x,x+y) (\mathds{1}_{x + y \leq t}) \lambda e^{-\lambda(x + y - t -(x +y))} \frac{\lambda^{n-1}}{\Gamma(n-1)} y^{n-2} \mathds{1}_{x \geq 0} \mathds{1}_{y \geq 0} dx dy \\
+& = e^{-t \lambda} \frac{\lambda^{n}}{\Gamma(n-1)} \int_{\mathbb{R}^2} f(x,x+y) (\mathds{1}_{x + y \leq t}) y^{n-2} \mathds{1}_{x \geq 0} \mathds{1}_{y \geq 0} dx dy \\
+& = e^{-t \lambda} \frac{\lambda^{n}}{(n - 2)!} \int_{u \geq 0, v \geq 0} f(u,v) (\mathds{1}_{0 < u < v \leq t}) (v - u)^{n-2} du dv \\
+\end{aligned}
+$$
+où $u = x = t_1$ et $v = y + x = t_n$. On a donc : 
+$$
+\esp{f(T_1,T_n)\mathds{1}_{N_t = n}} = e^{-t \lambda} \frac{\lambda^{n}}{(n - 2)!} \int_{t_1 \geq 0, t_n \geq 0} f(t_1,t_n) (\mathds{1}_{0 < t_1 < t_n \leq t}) (t_n - t_1)^{n-2} dt_1 dt_n
+$$
+\newline
+\newline
+Avec le rappel $\proba{N_t = n} = \frac{e^{- \lambda t} (\lambda t)^n}{n !} $, on a donc, en passant par l'espérance conditionelle :
+$$
+\begin{aligned}
+\esp{f(T_1, T_N) | N_T = n} & = \frac{\esp{f(T_1,T_n)\mathds{1}_{N_t = n}}}{\proba{N_t = n}} \\
+& = n(n-1) \int_{t_1,t_n \geq 0} f(t_1,t_n) (\mathds{1}_{0 < t_1 < t_n \leq t}) t^{-n} (t_n - t_1)^{n-2} dt_1dt_n
+\end{aligned}
+$$
+Donc la varaible de $(T_1, T_n)$ sachant $N_t = n$ a la densité : $n(n-1) t^{-n} (t_n - t_1)^{n-2} (\mathds{1}_{0 < t_1 < t_n \leq t})$.
+\newline
+
+%%%%  Q5
+
+\textbf{5.} On pose $Z = T_1/T_n$ (conditionnellement à $N_t = n$), on a alors :
+$$
+\begin{aligned}
+\esp{g(Z)} & = \esp{g(T_1/T_n)} = \int_{\mathbb{R}^2} g\left(\frac{t_1}{t_n}\right) f(t_1,t_n) dt_1 dt_n\\
+& = \int_{\mathbb{R}^2} g\left(\frac{t_1}{t_n}\right) n(n-1) t^{-n} (t_n - t_1)^{n-2} (\mathds{1}_{0 < t_1 < t_n \leq t}) dt_1 dt_n\\
+\end{aligned}
+$$
+le changement de variable est donc $(u,v) = (t_1/t_n, t_n)$, soit $(t_1,t_n) = (uv, v)$ et de jacobienne 
+$
+\begin{bmatrix}
+v & 0 \\
+u & 1 
+\end{bmatrix}	
+$
+de déterminant $v$ nous ramenant à :
+
+$$
+\begin{aligned}
+\esp{g(Z)} & = \int_{\mathbb{R}^2} v g(u) n(n-1) t^{-n} (v - uv)^{n-2} (\mathds{1}_{0 < uv < v \leq t} ) du dv \\
+& = n(n-1) \int_{\mathbb{R}} g(u) \left(\int_{\mathbb{R}} v(v(1-u))^{n-2} (\mathds{1}_{0 < uv < v \leq t} ) dv \right) du \\
+& = n(n-1) \int_{\mathbb{R}} g(u) (1-u)^{n-2} \left(\int_{0}^{t} v^{n-1} dv \right) \mathds{1}_{0 < u < 1} du \\
+& = n(n-1) \int_{\mathbb{R}} g(u) (1-u)^{n-2} \frac{t^n}{n} \mathds{1}_{0 < u < 1} du \\
+\end{aligned}
+$$
+Donc la densité de $T_1/T_n$ conditionnellement à $N_t = n$ vaut $(1-x)^{n-2}\left[t^n(n-1)^{-1} \right] \mathds{1}_{0 < x < 1}$ qui est la densité d'une loi $\beta(1,n-1)$ tout comme la loi trouvé antérieurement à la question 3.
+
+
+
+\end{document}
+
+
