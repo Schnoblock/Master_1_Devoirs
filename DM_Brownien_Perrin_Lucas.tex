@@ -1,0 +1,535 @@
+\documentclass[a4paper,10pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{dsfont}		%mathds{1} pour faire l'indicatrice
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Définition}
+\newtheorem{thm}{Théorème}
+\newtheorem{rmq}{Remarque}
+\newtheorem{exem}{Exemple}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lem}{Lemme}
+\frenchbsetup{StandardLists=true} 
+\usepackage[all]{xy}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+\newcommand{\definition}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{defi} #1 \end{defi}\end{minipage}}}	%Définition
+\newcommand{\theoreme}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{thm} #1 \end{thm}\end{minipage}}} %Théorème
+\newcommand{\coro}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{corollaire} #1 \end{corollaire}\end{minipage}}} %Corollaire
+\newcommand{\proposition}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{prop} #1 \end{prop}\end{minipage}}} %Proposition
+\newcommand{\lemme}[1]{\noindent \begin{tabular}{|c}	%Lemme
+\begin{minipage}{\textwidth}
+    \raggedright{\begin{lem} #1\end{lem}}
+\end{minipage}
+\end{tabular}}
+\newcommand{\ccl}[1]{\begin{center} \fbox{#1} \end{center}}  %Conclusion encadrée centrée
+\newcommand{\esp}[1]{\mathbb{E}\left[#1\right]} %Espérance
+\newcommand{\Var}[1]{\mathbb{V} \left[#1\right]} %Variance
+\newcommand{\proba}[1]{\mathbb{P} \left(#1\right)} %Proba
+
+\DeclareMathOperator{\ind}{\perp \!\!\! \perp} %Symbole indépendant pour variable aléatoires
+
+\DeclareMathOperator{\epi}{\epsilon_{t_{i + 1}}}
+
+% --------------------------------------------------------------------
+% Definitions (do not change this)
+% --------------------------------------------------------------------
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}   % Horizontal rule
+
+\makeatletter                           % Title
+\def\printtitle{%                       
+    {\centering \@title\par}}
+\makeatother                                    
+
+\makeatletter                           % Author
+\def\printauthor{%                  
+    {\centering \large \@author}}               
+\makeatother   
+
+% --------------------------------------------------------------------
+% Metadata (Change this)
+% --------------------------------------------------------------------
+\title{ \normalsize \textsc{}    % Subtitle
+            \\[2.0cm]                               % 2cm spacing
+            \HRule{0.5pt} \\                        % Upper rule
+            \LARGE \textbf{\uppercase{DM : Mouvement Brownien et évaluation des actifs}}    % Title
+            \HRule{2pt} \\ [0.5cm]      % Lower rule + 0.5cm spacing
+            \normalsize \today        % Todays date
+            \\
+        }
+
+\author{
+       Lucas Perrin\\
+}
+
+\begin{document}
+\setcounter{page}{1}
+\noindent
+Mouvement Brownien et évaluation des actifs\\
+Lucas Perrin\\
+10 mai 2020
+
+\begin{center}
+\huge{ Devoir Maison }
+\end{center}
+
+%%%
+%%%   EXERCICE 1
+%%%
+
+\subsection*{Exercice 1 (Modèle binomial en temps discret)}
+
+On a ici un Binomial tree à $n$ périodes. On note : $\Delta_n t = \frac{T}{n}$. On a donc les paramètres suivants : $u = e^{\sigma \sqrt{\Delta_n t}}$, $d = e^{- \sigma \sqrt{\Delta_n t}}$ d'après l'énoncé :
+
+$$
+S_{t^n_{k+1}} = \left\{
+\begin{array}{ll}
+u S_{t^n_{k}} & \mbox{si } \xi = 1 \mbox{    (proba } \frac{1}{2} \mbox{)}\\
+ & \\
+d S_{t^n_{k}} & \mbox{si } \xi = -1 \mbox{    (proba } \frac{1}{2} \mbox{)}
+    \end{array}
+\right.
+$$
+
+Les rendements sont $Y_{k+1} = S_{t_{k+1}} / S_{t_{k}} = e^{\sigma \left( \sqrt{\frac{T}{n}} \right) \xi_{k+1}} = e^{\sigma \left( \sqrt{\Delta_n t} \right) \xi_{k+1}}$ 
+
+%%% Q1A
+
+\paragraph*{1.a} Pour que ce modèle vérifie la condition \textit{A.O.A.}, il faut que $d < e^{r \Delta_n t} = e^{r \frac{T}{n}} < u$, $r \in \mathbb{R}$. Soit :
+
+$$
+e^{- \sigma \sqrt{\Delta_n t}} < e^{r \Delta_n t} < e^{\sigma \sqrt{\Delta_n t}}
+$$
+$$
+- \sigma \sqrt{\Delta_n t} < r \Delta_n t < \sigma \sqrt{\Delta_n t}
+$$
+$$
+\frac{- \sigma}{\sqrt{\frac{T}{n}}} < r < \frac{\sigma}{\sqrt{\frac{T}{n}}}
+$$
+
+%%% Q1B
+
+\paragraph*{1.b} On a $\mathbb{Q}^n$ une probabilité neutre au risque. On sait alors que $\mathbb{Q}^n$ est unique, et que sous cette probabilité, les rendements sont indépendants et de même loi. On a donc, pour tout $k \neq k'$, $k,k' \in [0,T]$ :
+$$
+Y_k \ind Y_{k'}
+$$
+$$
+e^{\sigma \sqrt{\frac{T}{n}} \xi_{k}} \ind e^{\sigma \sqrt{\frac{T}{n}} \xi_{k'}}
+$$
+qui équivaut à :
+
+$$
+\forall k \neq k', \quad k, k' \in [0,T], \quad \xi_{k} \ind \xi_{k'}
+$$
+La loi de ces rendements est alors donnée par :
+
+$$
+\begin{aligned} 
+& \mathbb{Q}^n\left(Y_{1}=u\right)=q \quad \text { et } \quad \mathbb{Q}^n\left(Y_{1}=d\right)=1-q \\
+& \\
+&\mbox{où : } \quad q=\frac{e^{r \frac{T}{n}}-d}{u-d}
+\end{aligned}
+$$
+soit :
+
+$$
+\mathbb{Q}^n\left[ e^{\sigma  \sqrt{\frac{T}{n}}  \xi_{1}} = e^{\sigma \sqrt{\frac{T}{n}}}\right] = q 
+\quad \text { et } \quad
+\mathbb{Q}^n\left[e^{\sigma \sqrt{\frac{T}{n}} \xi_{1}} = e^{- \sigma \sqrt{\frac{T}{n}}} \right]=1- q
+$$
+
+$$
+\mathbb{Q}^n \left( \xi_{1} = 1 \right) = q 
+\quad \text { et } \quad
+\mathbb{Q}^n \left( \xi_{1} = - 1 \right)=1- q
+$$
+avec : $q = \frac{e^{r \frac{T}{n}} - e^{- \sigma \sqrt{\frac{T}{n}}} }{e^{\sigma \sqrt{\frac{T}{n}}} - e^{- \sigma \sqrt{\frac{T}{n}}} }$ \\
+
+La loi de $S_T$ sous $\mathbb{Q}^n$ est alors :
+
+$$
+S_T = S_0 e^{\sigma \sqrt{\frac{T}{n}} \sum_{i = 1}^n \xi_i} \quad \mbox{ avec : } \left\{
+\begin{array}{ll}
+\xi_i = 1 \mbox{    (proba } q \mbox{)}\\
+ & \\
+\xi_i = -1 \mbox{    (proba } 1 - q \mbox{)}
+    \end{array}
+\right.
+$$
+En posant $X_i = \frac{\xi_i +1}{2}$ on a :
+$$
+\sum_{i = 1}^n X_i \sim \mathcal{B}(n,q)
+$$
+Alors :
+$$
+S_T = S_0 \exp{ 2 \sigma \sqrt{\frac{T}{n}} \sum_{i = 1}^n \left(  \frac{\xi_i +1}{2} - \frac{1}{2} \right) } = S_0 \exp{ 2 \sigma \sqrt{\frac{T}{n}} \sum_{i = 1}^n  X_i - \sigma n \sqrt{\frac{T}{n}} }
+$$
+$S_T$ est à valeur dans : $S_0 \exp{\sigma \sqrt{\frac{T}{n}} (2k - n)}$, $0 \leq k \leq n$. On a alors :
+
+$$
+\mathbb{Q}^n \left( S_T = S_0 \exp{\sigma \sqrt{\frac{T}{n}} (2k - n)} \right) = \mathbb{Q}^n \left( \sum_{i = 1}^n  X_i = k \right) = \frac{n!}{k!(n-k)!}q^k (1-q)^{n-k}
+$$
+
+%%% Q1C
+
+\paragraph*{1.c} 
+
+%%% Q2
+
+\paragraph*{2.} On a donc :
+$$
+C^{B S}\left(S_{0}, T, K, \sigma, r\right):=\mathbb{E}^{\mathbb{P}}\left[e^{-r T}\left(S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T}-K\right)^{+}\right]
+$$
+$$
+\begin{aligned}
+C^{B S}\left(S_{0}, T, K, \sigma, r\right) & = \mathbb{E}^{\mathbb{P}}\left[e^{-r T}  \left(S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T}-K\right)\mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}}  \right] \\
+& = \mathbb{E}^{\mathbb{P}}\left[e^{-r T}  \left(S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T}\right)\mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}} - e^{-r T} K  \mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}}  \right] \\
+& = e^{-r T} \left( \mathbb{E}^{\mathbb{P}}\left[    \left(S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T}\right)\mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}} \right] - K \mathbb{E}^{\mathbb{P}}\left[  \mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}}  \right] \right) \\
+& = e^{-r T} \left( \mathbb{E}^{\mathbb{P}}\left[    \left(S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T}\right)\mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}} \right] - K \mathbb{P} \left[  S_0 e^{\sigma B_T+\left(r-\frac{\sigma^2}{2} \right) T} > K  \right] \right)
+\end{aligned}
+$$\\
+\newline
+On va alors poser :
+
+$$
+\left\{
+\begin{array}{ll}
+a_0 = a_1 + \sigma \sqrt{T} \\
+a_1 = \frac{\log\left( {\frac{S_0}{K}} \right) + \left( r-\frac{\sigma^{2}}{2} \right) T}{\sigma \sqrt{T}}
+\end{array}
+\right.
+$$
+
+Or, on a pour le second membre :
+$$
+\begin{aligned}
+\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\} & = \left\{ \sigma B_{T} > \log \left( {\frac{K}{S_0}} \right) - \left( r-\frac{\sigma^{2}}{2} \right) T \right\} \\ 
+& = \left\{ \frac{- B_{T}}{\sqrt{T}} < \frac{\log\left( {\frac{S_0}{K}} \right) + \left( r-\frac{\sigma^{2}}{2} \right) T}{\sigma \sqrt{T}} \right\} \\
+\end{aligned}
+$$
+donc : $K \mathbb{P} \left[  S_0 e^{\sigma B_T+\left(r-\frac{\sigma^2}{2} \right) T} > K  \right] = K \mathcal{N} \left(a_1\right)$  car $ B_T \sim \mathcal{N}(0,T)$.
+
+Ensuite pour le premier membre :
+
+$$
+\begin{aligned}
+\mathbb{E}^{\mathbb{P}}\left[    \left(S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T}\right)\mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}} \right] & = S_{0} \mathbb{E}^{\mathbb{P}}\left[\left( e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} \right) \mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}}\right] \\
+& \\
+& = \frac{S_{0}}{e^{-rT}} \mathbb{E}^{\mathbb{P}}\left[\left( e^{\sigma B_{T}-\frac{\sigma^{2}}{2} T} \right) \mathds{1}_{\left\{S_{0} e^{\sigma B_{T}+\left(r-\frac{\sigma^{2}}{2}\right) T} > K \right\}}\right] \\
+& = \frac{S_0}{e^{-rT}}\mathbb{E}^{\mathbb{P}}\left[  \frac{d\mathbb{P}^\sigma}{d\mathbb{P}} \mathds{1}_{\{ S_T > K\}}   \right] \\
+& = \frac{S_0}{e^{-rT}}\mathbb{E}^{\mathbb{P}^\sigma}\left[ \mathds{1}_{\{ S_T > K\}}   \right] \\
+& = \frac{S_0}{e^{-rT}} \mathbb{P}^\sigma \left[ S_T > K   \right] \\
+\end{aligned}
+$$
+
+Où $(B_t - \sigma t)_{t}$ est un mouvement Brownien sous $\mathbb{P}^\sigma$ une mesure équivalente à $\mathbb{P}$ et $\{S_T > K\} = \left\{    -  \frac{B_t - \sigma t}{\sqrt{T}} \leq \sigma \sqrt{T} \right\}$ \\
+\newline
+On a donc : $\mathbb{P}^\sigma (S_T \geq K) = \mathcal{N}\left(a_0 \right) $\\
+$$
+\begin{aligned}
+C^{B S}\left(S_{0}, T, K, \sigma, r\right) & = S_0 \mathcal{N}\left(a_0 \right) - K e^{-rT}  \mathcal{N} \left(a_1\right) \\
+& =S_0 \mathcal{N}\left(\frac{\log\left( {\frac{S_0}{K}} \right) + \left( r-\frac{\sigma^{2}}{2} \right) T}{\sigma \sqrt{T}}  + \sigma \sqrt{T} \right) -  K e^{-rT}  \mathcal{N} \left(\frac{\log\left( {\frac{S_0}{K}} \right) + \left( r-\frac{\sigma^{2}}{2} \right) T}{\sigma \sqrt{T}}\right)
+\end{aligned}
+$$
+%%% Q3A
+
+\paragraph*{3.a} Avec le langage python, on crée une fonction avec le code suivant :
+
+\begin{lstlisting}[language=Python]
+%pylab inline
+import scipy.stats as stats
+
+def Call_option(S,K,T,sigma,r,n):
+    
+    #On implemente delta_T, u et d, ainsi que le prix q et e_r
+    delta_T = T/n
+    u = exp(sigma * sqrt(delta_T))
+    d = exp(- sigma * sqrt(delta_T))
+    q = ((exp(r*delta_T))-d)/(u - d)
+    e_r = exp(-r*delta_T)
+
+    #On initialise la taille de C et de S_t
+    S_t = zeros(n + 1)
+    C = zeros(n + 1)
+    
+    #On initalise S_t[0]
+    S_t[0]=S*d**n
+
+    #On calcule St a chaque temps t
+    for j in range(1, n+1): 
+        S_t[j] = S_t[j-1] * u/d
+    
+    #On calcule C a chaque temps t > 0
+    for j in range(1, n+1):
+        C[j] = max(S_t[j]-K,0)
+
+    # On trouve C[0] en "remontant"
+    for i in range(n, 0, -1):
+        for j in range(0, i):
+            C[j] = e_r*(q*C[j+1]+(1-q)*C[j])
+            
+    # On renvoie C[0]        
+    return C[0]
+
+#On implemente aussi le resultat de la question 2.
+def CBB(S_0,K,T,sigma,r):
+    a_1 = (log(S_0/K)+(r-(sigma**2)/2)*T)  /  (sigma*sqrt(T))  
+    a_0 = a_1 + sigma*sqrt(T)
+    return(- K * exp(-r*T)* stats.norm.cdf(a_0) + S_0 * stats.norm.cdf(a_1))
+
+\end{lstlisting}
+
+%%% Q3B
+
+\paragraph*{3.b} On a l'entrée suivante :
+
+\begin{lstlisting}[language=Python]
+#On initialise nos parametres
+
+diff_n = [10, 20, 30, 50, 100]
+S_0, K, T, sigma, r = 50, 50, 1, 0.1, 0.3
+
+#On fait tourner la fonction
+
+for n in diff_n:
+    print("avec n =", n, "C[0] vaut :", Call_option(S_0,K,T,sigma,r,n))
+print("")
+print('CBB : ', CBB(S_0, K, T, sigma, r))
+    
+\end{lstlisting}
+
+Qui nous donne en sortie :
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.4\textwidth]{sorties_exo_1.png}
+\caption{Sorties Python}
+\end{figure}
+
+Le calcul par itération est donc assez proche du résultat trouvé à la question \textbf{2.}, mais légèrement supérieur.
+
+\newpage
+%%%
+%%%   EXERCICE 2
+%%%
+
+\subsection*{Excercice 2 (Formule d’Itô)}
+
+Le processus $X$ est un processus d'Itô et donc peut s'écrire : $X_{t}=X_{0}+\int_{0}^{t} \sigma_{u} d B_{u}+\int_{0}^{t} \mu_{u} d u$. On rappelle alors la formule d'Itô :  Si $f(t,X_t)$ est une fonction de classe ${\mathcal{C}}^{{2}}({{\mathbb  {R}}, \mathbb  {R}}\times {\mathbb  {R}}_{+})$, on a la formule :
+
+$$
+\boxed{
+f(t,X_t) = f(0,X_0) + \int_0^t \frac{\partial f}{\partial t} (u, B_u) du +  \int_0^t \frac{\partial f}{\partial x} (u,B_u)dB_u + \frac{1}{2}  \int_0^t \frac{\partial^2 f}{\partial x^2} (u,B_u) d<B>_u
+}
+$$
+
+%%% Q1
+
+\paragraph{1.}  On a $X_t = f(B_t)$ où $f(x) = 3x$ est de classe $\mathcal{C}^2$. Ainsi on peut appliquer la formule d'Itô et l'on obtient :
+$$
+X_t = X_0 + 3 \int_0^t dB_s 
+$$
+
+qui montre que $(X_t)_{t \geq 0}$ est bien un processus d'Itô.
+
+%%% Q2
+
+\paragraph{2.} On a $X_t = f(t, B_t)$ où $f(t,x) = e^{x + t}$. L'application $f$ est bien $\mathcal{C}^{1,2}$, on peut donc appliquer la formule d'Itô : 
+$$
+\begin{aligned}
+& X_t = f(0,B_0) + \int_0^t \frac{\partial f}{\partial t} (u, B_u) du +  \int_0^t \frac{\partial f}{\partial x} (u,B_u)dB_u + \frac{1}{2}  \int_0^t \frac{\partial^2 f}{\partial x^2} (u,B_u) d<B>_u \\
+& X_t = X_0 + \int_0^t  X_u du + \int_0^t  X_u dB_u + \frac{1}{2}  \int_0^t  X_u du \\
+& X_t = X_0 + \int_0^t X_u dB_u + \frac{3}{2} \int_0^t  X_u du
+\end{aligned}
+$$
+
+qui montre que $(X_t)_{t \geq 0}$ est bien un processus d'Itô.
+
+%%% Q3
+
+\paragraph{3.} On pose $Y_t = \exp{B_t}$, on a alors :
+$$
+\begin{aligned}
+Y_t & = \exp{B_0} + \int_0^t \exp{B_u} d_u + \int_0^t \exp{B_u} d<B>_u \\
+& = 1 + \int_0^tY_u dB_u + \int_0^t Y_u du
+\end{aligned}
+$$
+soit $dY_t = Y_t dt + Y_t dB_t$.\\
+On a aussi : $ Z_t = \int_0^t B_u du$ soit $dZ_t= B_t dt$.\\
+D'où :
+$$
+\begin{aligned}
+X_t = Y_tZ_t, \quad  dX_t & = d(Y_tZ_t) = Y_tdZ_t + Z_tdY_t + d<Y,Z>_t & \\
+& = Y_tdZ_t + Z_tdY_t  & \text{pusique } d<Y,Z>_t = 0 \text{  car  } H^2 = 0 \\
+\end{aligned}
+$$
+donc on trouve :
+$$
+dX_t = d(Y_tZ_t) = Y_tB_td_t = \left( \int_0^tB_udu \right)Y_tdt + \left( \int_0^t  B_u du \right) Y_t dB_t
+$$
+
+qui montre que $(X_t)_{t \geq 0}$ est bien un processus d'Itô.
+
+
+%%% Q4
+
+\paragraph{4.} On a $X_t = f(t, B_t)$ où $f(t,x) = x e^{\sigma x}$. L'application $f$ est bien $\mathcal{C}^{1,2}$, on peut donc appliquer la formule d'Itô : 
+$$
+\begin{aligned}
+& X_t = f(0,X_0) + \int_0^t \frac{\partial f}{\partial x} (u,B_u)dB_u + \frac{1}{2}  \int_0^t \frac{\partial^2 f}{\partial x^2} (u,B_u) d<B>_u \\
+& X_t = X_0 + \int_0^t e^{\sigma B_u} + B_u \sigma e^{\sigma B_u} dB_u + \frac{1}{2} \int_0^t \sigma e^{\sigma B_u} + \sigma \left( e^{\sigma B_u} + B_u \sigma e^{\sigma B_u} \right) du \\
+& X_t = X_0 + \int_0^t Z_u dB_u + \sigma \int_0^t X_u dB_u + \frac{1}{2} \left( \sigma \int_0^t Z_u du + \sigma \int_0^t Z_u du + \sigma \int_0^t X_u du \right) \\
+& X_t = X_0 + \int_0^t (Z_u + \sigma X_u) dB_u + \frac{1}{2} \int_0^t \sigma (2 Z_u + X_u) du
+\end{aligned}
+$$
+
+qui montre que $(X_t)_{t \geq 0}$ est bien un processus d'Itô.
+
+%%% Q5
+
+\paragraph{5.}  On a $X_t = f(B_t,W_t)$ où  $f(x,y) = cos(xy)$. L'application $f$ est bien $\mathcal{C}^2$ on donc appliquer la formule d'Itô :
+
+$$
+\begin{aligned}
+X_t = & f(0,B_0,W_0) + \left(     \int_0^t \frac{\partial f  }{\partial x} (B_s,W_s) dB_s  \right)  +  \left(     \int_0^t \frac{\partial f  }{\partial y} (B_s,W_s) dW_s  \right) \\
+& + \frac{1}{2} \left(     \int_0^t   \frac{\partial^2 f  }{\partial x^2}  (B_s,W_s) d<B>_s \right) + \frac{1}{2} \left(     \int_0^t   \frac{\partial^2 f  }{\partial xy}  (B_s,W_s) d<B,W>_s \right)   \\
+& + \frac{1}{2} \left(     \int_0^t   \frac{\partial^2 f  }{\partial yx}  (B_s,W_s) d<W,B>_s \right)     +  \frac{1}{2}    \left(     \int_0^t   \frac{\partial^2 f  }{\partial y^2}  (B_s,W_s) d<W>_s \right)  \\
+= & \cos(B_0W_0) + \left(     \int_0^t -W_s\sin(B_sW_s) dB_s  \right)  +  \left(     \int_0^t -B_s\sin(B_sW_s) dW_s  \right) \\
+& +\frac{1}{2} \left(     \int_0^t   -\sin(B_sW_s) - W_s^2\cos(B_sW_s) ds \right) + \left(    \int_0^t  - W_sB_s\cos(B_sW_s) ds \right)   \\
+& +  \frac{1}{2}    \left(     \int_0^t   -\sin(B_sW_s) - B_s^2\cos(B_sW_s) ds \right)  \\
+= & 1 + \left(     \int_0^t -W_s\sin(B_sW_s) dB_s  \right)  +  \left(     \int_0^t -B_s\sin(B_sW_s) dW_s  \right) 
+ + \frac{1}{2} \left(   \int_0^t   -2\sin(B_sW_s)   - (W_s + B_s)^2    cos(B_sW_s) ds   \right)
+\end{aligned}
+$$
+qui montre que $(X_t)_{t \geq 0}$ est bien un processus d'Itô.
+
+
+\newpage
+
+%%%
+%%%   EXERCICE 3
+%%%
+
+\subsection*{Excercice 3 (Changement de probabilité)}
+
+On rappelle que l'on pose :
+
+$$
+L:=\left\{L_{t}=\exp \left\{\lambda B_{t}-\frac{\lambda^{2}}{2} t\right\}, t \in[0, T]\right\}
+$$
+
+Et que l'on définit sur $\mathbb{F}_T$ la fonction $\mathbb{Q}_T : A \in \mathcal{F}_T \to \mathbb{E}^{\mathbb{P}}\left[\mathds{1}_{A} L_{T}\right]$.
+%%% Q1
+
+\paragraph{1.} On va montrer que $\mathbb{Q}_T$ est une mesure de probabilité :
+\begin{itemize}
+\item $\mathbb{Q}_T(\varnothing ) = \mathbb{E}^\mathbb{P}\left[ \mathds{1}_\varnothing L_T\right] = 0$;
+\item Soit $\{A_n\}_{n \in \mathbb{N} }$, une famille d'éléments 2 à 2 disjoints ;\\
+$\mathbb{Q}_T(\bigcup_n A_n) = \mathbb{E}^\mathbb{P}\left[ \mathds{1}_{\left\{ \bigcup_n A_n \right\}} L_T\right] = \mathbb{E}^\mathbb{P}\left[ \sum_n \mathds{1}_{\left\{ A_n \right\}} L_T\right] = \sum_n \mathbb{E}^\mathbb{P}\left[ \mathds{1}_{\left\{ A_n \right\}} L_T\right] = \sum_n \mathbb{Q}_T(A_n)$;
+\item $\mathbb{Q}_T(\Omega) = \mathbb{E}^\mathbb{P}\left[ L_T\right] = \mathbb{E}^\mathbb{P}\left[ L_0\right] = 1$ car $L$ est une martingale (voir question \textbf{2.}).
+\end{itemize}
+
+Reste donc à prouver que $\mathbb{Q}_T(A) = 0$ si et seulement si $\mathbb{P}(A) = 0$ :
+$$
+\begin{aligned}
+& \mathbb{Q}_T(A) = 0 \\
+\Leftrightarrow \quad & \mathbb{E}^{\mathbb{P}}\left[\mathds{1}_A L_T\right] = 0 \\
+\end{aligned}
+$$
+Or $L_T > 0$ p-ps. , donc : $\mathds{1}_A = 0$ p-ps. , soit :
+$$
+\mathbb{Q}_T(A) = 0 \quad \Leftrightarrow \quad  \mathbb{P}(A) = 0
+$$
+
+
+
+%%% Q2
+
+\paragraph{2.} $L$ est une martingale. En effet le processus est $\mathbb{F}$-adapté. De plus, les exponentielles de variables gaussiennes sont intégrables. On a enfin pour tout $s < t$ :
+
+$$
+\mathbb{E}\left[\exp{\lambda B_{t}-\lambda^{2} \frac{t}{2}} | \mathcal{F}_{s}\right] = \exp{\lambda B_{s}-\sigma^{2} \frac{t}{2}}
+$$
+
+Il en découle donc facilement, avec $A \in \mathcal{F}_t$:
+
+$$
+\begin{aligned}
+\mathbb{Q}_{T}(A) &=\mathbb{E}^{\mathbb{P}}\left[\mathds{1}_{A} L_{T}\right] \\
+&=\mathbb{E}^{\mathbb{P}}\left[\mathds{1}_{A} \mathbb{E}^{\mathbb{P}}\left[L_{T} | \mathcal{F}_{t}\right]\right] \\
+&=\mathbb{E}^{\mathbb{P}}\left[\mathds{1}_{A} L_{t}\right]
+\end{aligned}
+$$
+
+%%% Q3
+
+\paragraph{3.} On a, avec $A \in \mathcal{F}_{t}$ :
+$$
+\begin{aligned}
+\mathbb{E}^{\mathbb{Q}_{T}}\left[\mathds{1}_A Z\right] &=E^{\mathbb{P}}\left[\mathds{1}_A Z L_T\right] \\
+&=E^{\mathbb{P}}\left[\mathds{1}_A Z L_t \frac{L_T}{L_t}\right] \\
+&=E^{\mathbb{P}}\left[\mathds{1}_A L_t \mathbb{E}^{\mathbb{P}}\left[Z \frac{L_T}{L_t} | \mathcal{F}_t\right]\right] \\
+&=E^{\mathbb{Q}_T}\left[\mathds{1}_A \mathbb{E}^{\mathbb{P}}\left[Z \frac{L_T}{L_t} | \mathcal{F}_t\right]\right]
+\end{aligned}
+$$
+
+d'après la question \textbf{2.} on a alors bien :
+$$
+\mathbb{E}^{\mathbb{Q}_T}\left[\mathds{1}_A Z\right] = \mathbb{E}^{\mathbb{P}}\left[Z \frac{L_T}{L_t} | \mathcal{F}_t\right] = \frac{\mathbb{E}^{\mathbb{P}}\left[Z L_T | \mathcal{F}_t\right]}{L_t}
+$$
+
+%%% Q4
+
+\paragraph{4.} On cherche ici à montrer que $\{B^{\lambda}_t :=B_t - \lambda t , \quad 0 \leq t \leq T \}$ est un mouvement brownien. Pour $0 \leq s \leq t \leq T$ :
+
+$$
+\begin{aligned}
+\mathbb{E}^{\mathbb{Q}_T}\left[\exp{i u (B_t^{\lambda}-B_s^{\lambda})} | \mathcal{F}_s\right] &= \frac{ \mathbb{E}^{\mathbb{P}}\left[\exp{i u\left(B_t^{\lambda}-B_s^{\lambda}\right)} L_t | \mathcal{F}_s\right] }{L_s} \\
+&& \\
+&=\mathbb{E}^{\mathbb{P}}\left[\exp{i u (B_t^{\lambda}-B_s^{\lambda} )} \cdot \exp{\lambda (B_t-B_s )-\frac{\lambda^2}{2}(t-s)} | \mathcal{F}_s\right] \\
+&&\\
+&=\mathbb{E}^{\mathbb{P}}\left[\exp{i u (B_{t}^{\lambda}-B_{s}^{\lambda} )} \cdot \exp{\lambda (B_{t}-B_{s} )-\frac{\lambda^{2}}{2}(t-s)}\right] \\
+&& \\
+&=\mathbb{E}^{\mathbb{P}}\left[\exp{(B_{t}-B_{s}) (\lambda+i u)-(t-s)\left(\frac{\lambda^{2}}{2}+i \lambda u\right)}\right] \\
+&& \\
+&=\exp{-u^2(t-s) / 2}
+\end{aligned}
+$$
+
+On a donc prouvé que $B^\lambda$ était un mouvement Brownien sur $(\Omega, \mathcal{F}_T, \mathbb{Q}_T)$.
+
+\end{document}
