@@ -1,0 +1,468 @@
+\documentclass[a4paper,10pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{dsfont}		%mathds{1} pour faire l'indicatrice
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Définition}
+\newtheorem{thm}{Théorème}
+\newtheorem{rmq}{Remarque}
+\newtheorem{exem}{Exemple}
+\newtheorem{corollaire}{Corollaire}
+\newtheorem{lem}{Lemme}
+\frenchbsetup{StandardLists=true} 
+\usepackage[all]{xy}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+\newcommand{\definition}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{defi} #1 \end{defi}\end{minipage}}}	%Définition
+\newcommand{\theoreme}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{thm} #1 \end{thm}\end{minipage}}} %Théorème
+\newcommand{\coro}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{corollaire} #1 \end{corollaire}\end{minipage}}} %Corollaire
+\newcommand{\proposition}[1]{\noindent \fbox{\begin{minipage}{\textwidth} \begin{prop} #1 \end{prop}\end{minipage}}} %Proposition
+\newcommand{\lemme}[1]{\noindent \begin{tabular}{|c}	%Lemme
+\begin{minipage}{\textwidth}
+    \raggedright{\begin{lem} #1\end{lem}}
+\end{minipage}
+\end{tabular}}
+\newcommand{\ccl}[1]{\begin{center} \fbox{#1} \end{center}}  %Conclusion encadrée centrée
+\newcommand{\esp}[1]{\mathbb{E}\left[#1\right]} %Espérance
+\newcommand{\Var}[1]{\mathbb{V} \left[#1\right]} %Variance
+\newcommand{\proba}[1]{\mathbb{P} \left(#1\right)} %Proba
+
+\DeclareMathOperator{\ind}{\perp \!\!\! \perp} %Symbole indépendant pour variable aléatoires
+
+\DeclareMathOperator{\epi}{\epsilon_{t_{i + 1}}}
+
+% --------------------------------------------------------------------
+% Definitions (do not change this)
+% --------------------------------------------------------------------
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}   % Horizontal rule
+
+\makeatletter                           % Title
+\def\printtitle{%                       
+    {\centering \@title\par}}
+\makeatother                                    
+
+\makeatletter                           % Author
+\def\printauthor{%                  
+    {\centering \large \@author}}               
+\makeatother   
+
+% --------------------------------------------------------------------
+% Metadata (Change this)
+% --------------------------------------------------------------------
+\title{ \normalsize \textsc{}    % Subtitle
+            \\[2.0cm]                               % 2cm spacing
+            \HRule{0.5pt} \\                        % Upper rule
+            \LARGE \textbf{\uppercase{DM : Mouvement Brownien et évaluation des actifs}}    % Title
+            \HRule{2pt} \\ [0.5cm]      % Lower rule + 0.5cm spacing
+            \normalsize \today        % Todays date
+            \\
+        }
+
+\author{
+       Lucas Perrin\\
+}
+
+\begin{document}
+\setcounter{page}{1}
+\noindent
+Introduction à la statistique non paramétrique\\
+Lucas Perrin\\
+15 mai 2020
+
+\begin{center}
+\huge{ Devoir Maison }
+\end{center}
+
+%%%%
+%%%%  EXO 1
+%%%%
+
+\subsection*{Exercice 1}
+
+% 1.A
+
+\paragraph{1.a.}  On est donc avec : $X_{1}, \ldots, X_{n} \stackrel{\text {iid}}{\sim} N\left(\mu, \sigma^{2}\right)$, $\sigma$ connu.\\
+Alors, le quotient $\frac{\sqrt{n}(\hat{\mu}-\mu)}{\sigma}$ suit une loi normale centrée réduite. avec $q_{1-\alpha /2}$ le quantile de niveau $\alpha/2$ de la loi normale on a (pour un niveau $\alpha$ car la loi est symmétrique)  :
+$$
+\begin{aligned}
+& \mu-q_{1-\alpha /2} \frac{\sigma}{\sqrt{n}}<\hat{\mu}<\mu+q_{1-\alpha /2} \frac{\sigma}{\sqrt{n}} \\
+& \hat{\mu}-q_{1-\alpha /2} \frac{\sigma}{\sqrt{n}}<\mu<\hat{\mu}+q_{1-\alpha /2} \frac{\sigma}{\sqrt{n}}
+\end{aligned}
+$$
+
+Soit les intervalles de confiance avec $q_{97.5\%} = 1.96$ et $q_{99.5\%} = 2.58$ les quantiles de niveau $5\%$ et $1\%$ :
+$$
+\begin{aligned}
+& IC_{95\%} = \left] 20.31 - 1.96 \frac{5}{\sqrt{8}} \quad ; \quad 20.31 + 1.96 \frac{5}{\sqrt{8}} \right[ \\
+& IC_{99\%} = \left] 20.31 - 2.58 \frac{5}{\sqrt{8}} \quad ; \quad 20.31 + 2.58 \frac{5}{\sqrt{8}} \right[
+\end{aligned}
+$$
+On a donc le test statistique suivant :
+$$
+H_{0}: \mu=16 \quad \text { vs } \quad \mu \neq 16
+$$
+qu'on peut reformuler de la manière suivante en posant :
+$$
+T = \frac{\sqrt{n}(\hat{\mu}-\mu)}{\sigma} = \frac{\sqrt(8)(20.31 - 16)}{5} = 2.44
+$$\\
+Si $T \in ] q_{1-\alpha /2}^{N(0,1)} ; q_{1-\alpha /2}^{N(0,1)}[$ on accepte $H_0$, sinon on rejette. \\
+\newline
+On a donc $T \notin ]-1.96;1.96[$ donc on rejette $H_0$ avec un niveau $\alpha = 5\%$ et $T \in ]-2.58;2.58[$ donc on accepte $H_0$ avec un niveau $\alpha = 1\%$.
+
+% 1.B
+
+\paragraph{1.b.} On a maintenant $\sigma$ inconnu. On se place d'abord dans le cas du test : 
+$$
+H_{0}: \mu=16 \quad \text { vs } \quad H_1 : \mu \neq 16
+$$\\
+On passe donc par la statistique convetionnelle : $T = \sqrt{n} \frac{(\hat{\mu} - 16)}{\hat{\sigma}}$ avec : $\hat{\sigma}=\sqrt{\frac{1}{n} \sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}}$.
+
+$$
+T=\sqrt{n} \frac{\hat{\mu}-16}{\hat{\sigma}}=\frac{\sqrt{n} \frac{\hat{\mu}-16}{\sigma}}{\frac{\hat{\sigma}}{\sigma}}=\frac{\sqrt{n} \frac{\hat{\mu}-16}{\sigma}}{\sqrt{\frac{\hat{\sigma}^{2}}{\sigma^{2}}}}
+$$
+Alors on a :
+$$
+\begin{aligned}
+& \sqrt{n} \frac{\hat{\mu}-16}{\sigma} \sim N(0,1) \\
+& \frac{\hat{\sigma}^{2}}{\sigma^{2}} = \frac{1}{n} \sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)^{2}}{\sigma^2} \sim \frac{\chi^{2}(n-1)}{n-1} \frac{n-1}{n}
+\end{aligned}
+$$
+On pose donc une statistique $\tilde{T}$ qui vérifie :
+$$
+T = \tilde{T}\sqrt{\frac{n}{n-1}}
+$$
+et dans ce cas, $\tilde{T}$ est le quotient d'une loi normale centrée réduite et d'une loi de chi deux de degré $(n-1)$ divisée par $(n-1)$, indépendantes entre elles. Donc $\tilde{T}$ suit une loi de Student à $(n-1)$ degrés de liberté. Donc :
+$$
+\tilde{T} = T  \sqrt{\frac{n-1}{n}} \sim \mathcal{T}(n-1)
+$$
+On a donc le test: $\Phi_\alpha^1 = \mathds{1}_{\left\{   | \tilde{T} | > q_{1-\alpha}^{\mathcal{T}(n-1)}  \right\}    }$ car la fonction puissance pour $H_1 : \mu \neq 16$ est $\mathbb{P}_{16} \left( | \tilde{T} | > q_{1-\alpha}^{\mathcal{T}(n-1)}  \right)$\\
+\newline
+
+
+
+
+
+On se place maintenant dans le cas du test :
+$$
+H_{0}: \mu \leq 16 \quad \text { vs } \quad H_1 : \mu > 16
+$$\\
+Ici $\Theta_0$ n'est pas un singleton donc $\bar{x}_n = \hat{\mu}$ n'a pas de loi fixe sous $H_0$. On cherche alors le plus petit $C \in \mathbb{R}$ qui vérifie :
+
+$$
+\sup_{\mu \leq 16} \mathbb{P}_\mu (\hat{\mu} > C) \leq \alpha
+$$
+or ;
+$$
+\begin{aligned}
+\mathbb{P}_\mu (\hat{\mu} > C) & = \mathbb{P}_\mu \left(\frac{\hat{\mu} - \mu}{\sigma} > \frac{C - \mu}{\sigma}\right) \\
+& = 1 - \mathbb{P}_\mu \left(\frac{\hat{\mu} - \mu}{\sigma} \leq \frac{C - \mu}{\sigma}\right) \\
+& = 1 - \Phi \left(  \frac{C - \mu}{\sigma}  \right) \quad \quad \quad \text{, }\Phi \text{ CDF de } N(0,1)
+\end{aligned}
+$$
+Donc la fonction qui à $\mu$ associe $\mathbb{P}_\mu (\hat{\mu} > C)$ est croissante. On a donc :
+$$
+\sup_{\mu \leq 16} \mathbb{P}_\mu (\hat{\mu} > C) = \mathbb{P}_{16} (\hat{\mu} > C)
+$$
+Or sous $\mu = 16$, $\hat{\mu} \sim N(\mu, \frac{\sigma^2}{n})$, soit tout comme plus haut, $\frac{\sqrt{n}(\hat{\mu}-16)}{\sigma} \sim N(0,1)$. On pose alors la statistique :
+$$
+\tilde{T} = T  \sqrt{\frac{n-1}{n}}  \quad \text{ et } \quad T = \sqrt{n} \frac{(\hat{\mu} - 16)}{\hat{\sigma}}
+$$
+Alors on a $\tilde{T} =  \sqrt{n-1} \frac{(\hat{\mu} - 16)}{\hat{\sigma}} \sim \mathcal{T}(n-1)$. On a donc bien $\mathbb{P}_{\mu = 16} \left(\tilde{T} > q_{1-\alpha}^{\mathcal{T}(n-1)}\right) = \alpha$\\
+\newline
+On fait donc ici de même que plus haut, mais il s'agit de montrer que :
+$$
+\sup_{\mu \leq 16} \mathbb{P}_\mu \left(\tilde{T} > q_{1-\alpha}^{\mathcal{T}(n-1)}\right) \leq \alpha
+$$
+On a alors, avec $K = q_{1-\alpha}^{\mathcal{T}(n-1)}  \frac{\hat{\sigma}}{\sqrt{n-1}}  + 16$ : 
+$$
+\begin{aligned}
+\mathbb{P}_\mu \left(\tilde{T} > q_{1-\alpha}^{\mathcal{T}(n-1)}\right)
+& = \mathbb{P}_\mu \left(\hat{\mu} > q_{1-\alpha}^{\mathcal{T}(n-1)}  \frac{\hat{\sigma}}{\sqrt{n-1}}  + 16  \right)\\
+& = \mathbb{P}_\mu \left(\hat{\mu} > K \right)\\
+& = 1 - \mathbb{P}_\mu \left(\hat{\mu} \leq K \right)\\
+& = 1 - \mathbb{E}_\mu \left[ \mathds{1}_{\hat{\mu} \leq K} \right] \\
+& = 1 - \mathbb{E}_\mu \left[ \mathbb{E}_\mu \left[ \mathds{1}_{\hat{\mu} \leq K} | K \right] \right] \\
+& = 1 - \mathbb{E}_\mu \left[ g(\mu,K) \right]
+\end{aligned}
+$$
+
+On a donc posé $g(\mu,K) = \mathbb{P}_\mu \left( \hat{\mu} \leq K \right)$ et donc $1 - g(\mu,K) = \mathbb{P}_\mu \left( \hat{\mu} > K \right)$ est croissante pour $\mu$ comme vu ci-dessus.
+On a donc bien :
+
+$$
+\sup_{\mu \leq 16} \mathbb{P}_\mu \left(\tilde{T} > q_{1-\alpha}^{\mathcal{T}(n-1)}\right) = \mathbb{P}_{\mu = 16} \left(\tilde{T} > q_{1-\alpha}^{\mathcal{T}(n-1)}\right) = \alpha
+$$
+
+On peut donc définit le test : $\Phi_\alpha^2 = \mathds{1}_{\left\{   \tilde{T} > q_{1-\alpha}^{\mathcal{T}(n-1)}  \right\}    }$.\\
+
+Nos lois sont continues, on a donc :
+
+$$
+\Phi_\alpha^1 = \mathds{1}_{\left\{  | \tilde{T} | > q_{1-\alpha}^{\mathcal{T}(n-1)}  \right\}    } = \mathds{1}_{\left\{  | \tilde{T} | \geq q_{1-\alpha}^{\mathcal{T}(n-1)}  \right\}    }  \quad \text{ et } \quad \Phi_\alpha^2 = \mathds{1}_{\left\{   \tilde{T} > q_{1-\alpha}^{\mathcal{T}(n-1)}  \right\}    } = \mathds{1}_{\left\{   \tilde{T} \geq q_{1-\alpha}^{\mathcal{T}(n-1)}  \right\}    }
+$$\\
+D'après le théorème de Wassermann on a la $p$-value de la manière suivante :
+
+$$
+p_1(x) = \sup_{\mu \leq 16} \mathbb{P}_\mu \left( | \tilde{T} | \geq q_{1-\alpha}^{\mathcal{T}(n-1)}    \right) = \mathbb{P}_{\mu = 16} \left( | \tilde{T} | \geq q_{1-\alpha}^{\mathcal{T}(n-1)}    \right) = 1 - \left[ F_{\mathcal{T}(n-1)}(\tilde{T}(x)) - F_{\mathcal{T}(n-1)}(-\tilde{T}(x))  \right]
+$$
+
+$$
+p_2(x) = \sup_{\mu \leq 16} \mathbb{P}_\mu \left(  \tilde{T} \geq q_{1-\alpha}^{\mathcal{T}(n-1)}    \right) = \mathbb{P}_{\mu = 16} \left(  \tilde{T} \geq q_{1-\alpha}^{\mathcal{T}(n-1)}    \right) = 1 - F_{\mathcal{T}(n-1)}(\tilde{T}(x))
+$$
+On a donc avec $n = 8$:
+$$
+\left\{
+\begin{array}{l}
+\tilde{T}(X) = \sqrt{7} \frac{20.31-16}{3.96} = 2.88 \\
+\\
+p_1(x) = 1 - ( F_{\mathcal{T}(7)}(2.88) - F_{\mathcal{T}(7)}(-2.88) ) = 0.024 \\
+\\
+p_2(x) = 1 - F_{\mathcal{T}(7)}(2.88) = 0.012
+\end{array}
+\right.
+$$
+
+On a calculé les $p$-values avec le code ci-dessous avec \textit{Python} :
+
+\begin{lstlisting}[language=Python]
+%pylab inline
+from scipy import stats
+
+T_tilde_x = sqrt(7)*(20.31-16)/(3.96)
+pv_1 = 1 - (stats.t.cdf(T_tilde_x, df = 7) - stats.t.cdf(-T_tilde_x, df = 7))
+pv_2 = 1 - stats.t.cdf(T_tilde_x, df = 7)
+
+print("P-value test 1 = ", pv_1)
+print("P-value test 2 = ", pv_2)
+
+\end{lstlisting}
+
+Donnant la sortie :
+
+\begin{lstlisting}[language=Python]
+[Out] P-value test 1 =  0.023665341010521757
+[Out] P-value test 2 =  0.011832670505260823
+
+\end{lstlisting}
+
+les $p$-value des deux test sont donc inférieures à 5\%, on rejette donc $H_0$ dans les deux cas.\\
+
+Cela semble logique, à un niveau de $5 \%$ on a rejeté $H_0$ connaissant $\sigma = 5$, ici on a un $\hat{\sigma}$ empirique plus petit, les valeurs sont donc plus recentrés autour de la moyenne empirique et donc il est encore moins probable qu'on valide l'hypothèse déjà rejetée avant.
+%2.A
+
+\paragraph{2.a.} On a :
+
+$$
+\begin{aligned}
+\Delta_n & = \sup_{t \in \mathbb{R}} \left|\hat{F}_n(t) - N_{\hat{\mu}, \hat{\sigma}^2}(t)\right| \\
+&= \sup_{t \in \mathbb{R}} \left|  \frac{1}{n} \sum_{i=1}^n \mathds{1}_{X_i \leq t}   - N_{\hat{\mu}, \hat{\sigma}^2}(t)\right|
+\end{aligned}
+$$\\
+\newline
+On pose alors : $Y_i = \frac{X_i - \mu}{\sigma}$; On a donc : $Y_i \sim \mathcal{N}(0,1)$.
+
+$$
+\begin{aligned}
+\Delta_n &= \sup_{t \in \mathbb{R}} \left|  \frac{1}{n} \sum_{i=1}^n \mathds{1}_{Y_i \leq \frac{t - \mu}{\sigma}}   - N_{\hat{\mu}, \hat{\sigma}^2}(t)\right| \\
+\end{aligned}
+$$\\
+\newline
+On pose alors le changement de variable : $y = \frac{t - \mu}{\sigma}$, soit $t = \sigma y + \mu$. Alors :
+
+$$
+\begin{aligned}
+\Delta_n &= \sup_{y \in \mathbb{R}} \left|  \frac{1}{n} \sum_{i=1}^n \mathds{1}_{Y_i \leq y}   - N_{\hat{\mu}, \hat{\sigma}^2}(\sigma y + \mu)\right| \\
+\end{aligned}
+$$\\
+\newline
+Or, on a que :
+
+$$
+N_{\mu, \sigma^2}(t) = \proba{X_1 \leq t} = \proba{\frac{X_1 - \mu}{\sigma} \leq \frac{t - \mu}{\sigma} } = N_{0,1}\left(\frac{t-\mu}{\sigma}\right) = \Phi\left(\frac{t-\mu}{\sigma}\right)
+$$\\
+\newline
+On a donc :
+$$
+N_{\hat{\mu}, \hat{\sigma}^2}(\sigma y + \mu) = \Phi \left(  \frac{\sigma y + \mu - \hat{\mu}}{\hat{\sigma}} \right)
+$$
+On décide alors de poser : $\hat{\mu}_2 $ l'estimateur de la moyenne de $(Y_i)$, et $\hat{\sigma}_2^2 $ l'estimateur biaisé de la variance de $Y_i$.
+$$
+\left\{
+\begin{array}{l}
+\hat{\mu} = \frac{1}{n} \sum_{i=1}^n X_i = \frac{1}{n} \sum_{i=1}^n \sigma Y_i + \mu = \sigma \hat{\mu}_2 + \mu  \\
+\\
+\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n (X_i - \hat{\mu})^2 = \frac{1}{n} \sum_{i=1}^n (  \sigma Y_i + \mu - ( \sigma  \hat{\mu}_2 + \mu )   )^2 = \sigma^2 \hat{\sigma}_2^2
+\end{array}
+\right.
+$$
+On peut donc trouver :
+$$
+\Phi \left(  \frac{\sigma y + \mu - \hat{\mu}}{\hat{\sigma}} \right) = \Phi \left(  \frac{\sigma y + \mu -  \sigma \hat{\mu}_2 - \mu}{\sigma \hat{\sigma}_2} \right) = \Phi \left(  \frac{y - \hat{\mu}_2}{\hat{\sigma}_2} \right)
+$$
+
+On revient donc à $\Delta_n$ :
+$$
+\Delta_n = \sup_{y \in \mathbb{R}} \left|  \frac{1}{n} \sum_{i=1}^n \mathds{1}_{Y_i \leq y}   - N_{\hat{\mu}, \hat{\sigma}^2}(\sigma y + \mu)\right| = \sup_{y \in \mathbb{R}} \left|    \frac{1}{n} \sum_{i=1}^n \mathds{1}_{X_i \leq y}   -  \Phi \left(  \frac{y - \hat{\mu}_2}{\hat{\sigma}_2} \right) \right| \equiv \tilde{h}_n
+$$\\
+\newline
+
+On a donc le test : $\Phi = \mathds{1}_{ \left\{  \Delta_n > q_{1-\alpha}^{\tilde{h}_n}   \right\}    }$.
+
+% 2.b
+
+\paragraph{2.b.} l'écart entre la courbe rouge et les paliers est maximal pour $t \simeq 24$, pour ce $t$, $\Delta_n \simeq 0.8 - 0.62 = 0.18$.
+
+% 2.c
+
+\paragraph{2.c.} On a le test : $\Phi = \mathds{1}_{ \left\{  \Delta_n > q_{1-\alpha}^{\tilde{h}_n}   \right\}    }$. Ici, $\Delta_n \simeq 0.18$, pour $\alpha = 5\%$ on a donc $q_{95\%} = 0.29 $. On a donc $\Delta_n < q_{95\%}$, on accepte donc $H_0$.
+
+%2.d 
+
+\paragraph{2.d.} % On cherche à estimer les quantiles de $\tilde{h}_n$.
+
+
+
+
+
+%%%%
+%%%%  EXO 2
+%%%%
+
+\subsection*{Exercice 2}
+
+% 1.a
+
+\paragraph{1.a} On a ici des données appariées (même personne avant et après la prise de sang) mais on ne possède pas les valeurs, uniquement les signes. On se propose alors d'utiliser le test du signe. On pose donc :
+\begin{itemize}
+\item $m$ médiane des $X_i$
+\item $X_i = U_i - V_i$
+\item $U_i$ rythme cardiaque avant le don du sang
+\item $V_i$ rythme cardiaque après le don du sang
+\end{itemize}
+Nous ne savons que le signe des $X_i$ : il est à $6$ reprises positif et à $2$ négatif. Il n'est apparemment jamais nul, on a donc bien $\mathbb{P}_{H_0}(X_i=m)=0$. De plus les $X_i$ sont indépendants entre eux et ne sont pas forcément de même loi mais on suppose la médiane $m$ commune. \\
+On pose alors :
+$$
+H_0 : m=0 \quad \text{vs.} \quad H_1 : m > 0
+$$
+
+La statistique de test est alors :
+$$
+S_8 = \sum_{i=1}^8 \mathds{1}_{X_i > 0}
+$$
+et le test est de la forme $\Phi_\alpha(X_i) = \mathds{1}_{\left\{ S_8  > q_{1-\alpha}^{B(8,1/2)}  \right\}}$
+
+% 1.b
+
+\paragraph{1.b} On a dans notre cas : $S_8 = 6$ et $q_{1-\alpha}^{B(8,1/2)} $ le quantile d'ordre $1-\alpha$ de la loi binomiale $B(8,1/2)$. On code alors dans \textit{Python} :
+
+\begin{lstlisting}[language=Python]
+%pylab inline
+from scipy import stats
+
+X = array([1,1,1,1,1,1,-1,-1])
+masque = array([X[i] > 0 for i in range(len(X))])
+S_8 = sum(X[masque])
+q_1_alpha = stats.binom.ppf(q = 0.95, n = 8, p = 1/2)
+if (S_8 > q_1_alpha):
+    print("H0 rejetee")
+else : print("H0 acceptee")
+
+\end{lstlisting}
+
+Nous donnant la sortie :
+\begin{lstlisting}[language=Python]
+[Out] H0 acceptee
+\end{lstlisting}
+
+En effet, $q_{95\%}^{B(8,1/2)} = 6$ on est donc à la limite la zone de rejet avec $S_8 = 6$, mais l'inégalité est stricte et le reste étant donné que la fonction de répartition est discrète.
+
+% 2.a
+
+\paragraph{2.a.} On a ici des données appariées, et on a accès à leur valeurs et non uniquement à leur signe. On se propose alors d'utiliser un test de Wilcoxon des rangs signés. On pose donc à nouveau :
+\begin{itemize}
+\item $m$ médiane des $X_i$
+\item $X_i = U_i - V_i$
+\item $U_i$ rythme cardiaque avant le don du sang
+\item $V_i$ rythme cardiaque après le don du sang
+\end{itemize}
+Mais cette fois ci, on dispose des valeurs.\\
+
+On a donc ici les deux hypothèses :
+$$
+H_0 : m=0 \quad \text{vs.} \quad H_1 : m > 0
+$$\\
+\newline
+La statistique de test $W_8^{+}$ est alors :
+$$
+W_8^{+} = \sum_{i=1}^8 R_{|X|}(i)\mathds{1}_{X_i > 0}
+$$\\
+Son espérance sous $H_0$ est :
+$$
+\mathbb{E}_{H_0}(W_8^{+}) = \frac{n(n+1)}{4} = \frac{72}{4} = 18
+$$
+
+%2.b
+
+
+\paragraph{2.b.} On a la table suivante :
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+i              & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
+$X_i$      &  -6 &  21 & 10  & 3  & 13  & -1  & 2  & 7  \\ \hline
+$|X_i|$    & 6  & 21  &  10 & 3  & 13  & 1  & 2  & 7  \\ \hline
+$R_{|X_i|}(i)$ &  4 &  8 & 6  &  3 &  7 &  1 & 2  &  5 \\ \hline
+\end{tabular}
+\end{table}
+
+On observe alors :
+$$
+W_8^{+} = 8 + 6 + 3 + 7 + 2 + 5 = 31
+$$ \\
+
+Le test est de la forme : $\Phi_\alpha = \mathds{1}_{\left\{   W_8^{+} > q_{1-\alpha}  \right\}}$ où $q_{1-\alpha}$ est le quantile d'ordre $1-\alpha$ de la loi de $W_8^{+}$ sous $H_0$. la $p$-valeur observée se trouve donc par :
+$$
+\mathbb{P}_{H_0}(W_8^{+} > 31) = 1 - \mathbb{P}_{H_0}(W_8^{+} \leq 30) = 1 - 0.9610 = 0.0390
+$$\\
+On a alors que : $0.0390 < 0.05$, on ne conserve donc pas $H_0$ au niveau $5\%$.
+
+Dans un premier cas, on acceptait $H_0$ (le rythme cardiaque n'ont pas baissés après le don de sang) sans avoir accès aux valeurs, dans le second cas on rejette $H_0$ (le rythme cardiaque est plus faible après le don de sang). L'accès aux valeurs nous a permis de modifier notre résultat.
+
+
+\end{document}
