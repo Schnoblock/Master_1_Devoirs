@@ -16,3 +16,6 @@ Mouvement Brownien et évalutation d'actifs :
 Introduction à la statistique non paramétrique :
 - Sujet DM
 - Devoir Maison Rendu (.pdf & .tex)
+
+Méthodes numériques: problèmes dépendants du temps (avec Thomas Bonnet et Claire Bouissou):
+- Devoir Maison, Sujet LateX RG-2, (.pdf & .tex)
